@@ -1,35 +1,104 @@
+# The Final Sprint for an Internship
 
-The Final Sprint for an Internship
-==================================
+**A 14-day intensive embedded systems bootcamp**  
+**August 11 – 24, 2025 (America/Chicago)**
 
-### Target internship roles (rated by alignment and competitiveness)
+---
 
-| Role | Alignment score (/10) | Notes |
-|---|---|---|
-| Embedded Software Engineering Intern | 10.0 | Uses C, MCU programming, protocols – perfect fit for this sprint |
-| Firmware Engineer Intern | 9.5 | Similar to embedded SWE but may emphasize RTOS and device drivers |
-| Electrical/Embedded Systems Engineer Intern | 8.0 | Broader EE roles; still aligned through MCU and circuit knowledge |
-| Robotics Software/Controls Intern | 7.5 | Involves real‑time control and sensors; benefits from embedded skills |
-| General SWE Intern (Python/C++) | 6.0 | Secondary option if embedded roles are saturated; leverages Python/Java background |
+## Overview
 
-### Time period
+This structured, two-week program simulates the workflow of a junior embedded software engineer. It bridges classroom theory and hands-on firmware development—covering peripheral configuration, driver implementation, data structures, and debugging—so graduates emerge ready for internship challenges.
 
-**August 11 – August 24, 2025 (America/Chicago)**  
-Each day runs from **8 AM to 5 PM** with a one‑hour lunch break and a one‑hour window at the end for internship applications. Classes begin on August 25, so this schedule provides two full weeks of focussed preparation. The day before (August 10) is reserved for moving into your new house.
+---
 
-### Focus of the sprint
+## Objectives
 
-This two‑week sprint aims to transition you from a software‑oriented EE student into a competitive **embedded systems engineer**.  You will:
+- **Master MCU Fundamentals**  
+  Configure STM32CubeIDE projects, GPIO, EXTI interrupts, timers, UART, SPI, ADC, and PWM.  
+- **Solidify Protocol Knowledge**  
+  Implement full-duplex SPI loopback, UART logging with ring buffers, and register bit-manipulation routines.  
+- **Hone Debugging & Toolchain Skills**  
+  Leverage Git workflows, Makefiles, Linux CLI, CubeIDE/GDB debugging, and logic-analyzer traces.  
+- **Experience Real-Time Concepts**  
+  Compare polling vs. interrupts, explore low-power modes, and prototype FreeRTOS tasks, queues, and semaphores.  
+- **Automate & Integrate**  
+  Build-and-flash scripts, log parsers, state-machine integration, and commit/tag discipline.
 
-- **Master embedded C**: practise pointers, memory layout, dynamic memory, structs, bitwise operations and build data structures.  These low‑level skills underpin firmware work and will be tested in interviews.  Reliable sources describe the **stack segment** as where automatic variables and function frames live and show that the **heap segment** grows from the end of the BSS and is used by `malloc`/`realloc`/`free`https://www.geeksforgeeks.org/c/memory-layout-of-c-program/#:~:text=Heap%20%20segment%20is%20where,calls%20to%20adjust%20its%20sizehttps://www.geeksforgeeks.org/c/memory-layout-of-c-program/#:~:text=The%20stack%20is%20a%20region,is%20stored%20in%20this%20segment.  Understanding these segments is critical when allocating memory for buffers or managing static vs dynamic storage.
-- **Learn MCU fundamentals**: set up and program an **STM32** microcontroller using the STM32CubeIDE.  Topics include configuring GPIO pins, handling external interrupts (EXTI) and timers, and using communication interfaces (UART, SPI, I²C).  A full‑duplex SPI bus uses MOSI, MISO, SCLK and a chip‑select line (SS); during each clock cycle the master shifts a bit on MOSI and the slave responds on MISOhttps://en.wikipedia.org/wiki/Serial_Peripheral_Interface#:~:text=orchestrates%20communication%20%20with%20one,slave%20roles%20on%20the%20fly.  You will use this knowledge to implement loopback tests and sensor drivers.
-- **Practise protocols**: implement bitwise functions to set, clear and toggle register bits (e.g., using `N |= 1 << k`, `N &= ~(1 << k)`, `N ^= 1 << k`https://www.geeksforgeeks.org/dsa/set-clear-and-toggle-a-given-bit-of-a-number-in-c/#:~:text=To%20set%20a%20specific%20bit,bits%20are%20set%20to%200https://www.geeksforgeeks.org/dsa/set-clear-and-toggle-a-given-bit-of-a-number-in-c/#:~:text=Clearing%20a%20Bit%20in%20C).  Mastering bit manipulation and register access is essential for configuring peripherals and will appear in interview questions.
-- **Develop debugging and tooling skills**: use **Git** for version control, the **Linux CLI** and **Makefiles** to automate builds, and the **CubeIDE/GDB** debugger to inspect memory, variables and registers.  You will also practise logging over UART, automating firmware flashing, and interpreting logic‑analyzer traces.
-- **Experience real‑time and RTOS concepts**: explore FreeRTOS tasks, queues and semaphores; implement pre‑emptive scheduling; and analyse latency and jitter.  Understanding task priorities and context switches will help in more advanced roles.
-- **Apply knowledge through coding**: each day includes deliverables requiring you to design and implement firmware or C functions.  These deliverables simulate real embedded tasks and prepare you for technical interviews.  They include constructing data structures, writing drivers, implementing debouncing logic, and integrating peripherals into a cohesive project.
+---
 
+## Deliverables
 
+This program will produce:
 
+1. **Daily Overviews**  
+   Step-by-step guides for each day’s goals, tasks, boilerplate code, and success criteria.
 
+2. **Firmware Modules & Drivers**  
+   - GPIO blink & debounced button  
+   - EXTI and timer-driven interrupts  
+   - SPI loopback test & diagnostics  
+   - UART logging with ring buffer & command parser  
+   - ADC sampling and PWM control  
 
+3. **Debugging Artifacts**  
+   GDB scripts, bug-report write-ups, and logic-analyzer captures illustrating diagnosis and fixes.
 
+4. **Toolchain Automation**  
+   Git commits/tags for every milestone, Makefiles, build-and-flash scripts, and log-parser utilities.
+
+5. **RTOS Prototype**  
+   FreeRTOS tasks, queues, semaphores, and analysis of scheduling overhead and stack usage.
+
+6. **Integrated Firmware**  
+   A cohesive image supporting Monitor, SPI Test, and Idle modes, with safe state-machine transitions.
+
+7. **Documentation & Diagrams**  
+   Cheat-sheets, state-machine diagrams, module READMEs, and a final reflection summarizing outcomes.
+
+8. **Application Log**  
+   A chronicle of internship submissions made during the sprint, complete with dates and roles.
+
+---
+
+## How to Get Started
+
+1. **Clone the Repo**  
+   ```bash
+   git clone https://github.com/your-username/embedded-sprint.git
+   cd embedded-sprint
+   ```
+
+2. **Explore Daily Guides**  
+   Open each `dayXX/overview.md` for goals, code skeletons, and validation steps.
+
+3. **Build & Flash**  
+   ```bash
+   make all
+   ./build_and_flash.sh --board NUCLEO-F446RE
+   ```
+
+4. **Run Tests & Logs**  
+   Employ provided test harnesses and log-parsing scripts to verify functionality.
+
+5. **Commit & Tag**  
+   ```bash
+   git add .
+   git commit -m "day3: GPIO blink & debounce skeleton"
+   git tag day3_blink_button
+   ```
+
+6. **Reflect & Apply**  
+   Review final documentation, polish the resume entry for “Embedded Internship Final Sprint,” and submit applications.
+
+---
+
+## Outcomes & Next Steps
+
+By completion, this bootcamp will have produced:
+
+- A portfolio of **hands-on embedded projects** demonstrating critical skills  
+- A disciplined **Git history** reflecting incremental, test-driven development  
+- Practical experience with **debugging**, **automation**, and **RTOS** concepts  
+- A refined **resume entry** and **application log** ready for internship submissions  
+
+Embark on this sprint to transform theoretical knowledge into deployable firmware—and land that embedded systems internship.  
