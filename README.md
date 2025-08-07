@@ -335,28 +335,3 @@ Each day begins with a **summary**, followed by **topics** to be studied, **task
 3. **Application log** – Submit applications and document which roles you applied for, along with submission dates.  Use the final hour each day from Aug 11 – 24 for applications.
 
 *Resources*: GitHub docs on README.md best practices; resume writing guides for embedded roles; job boards such as LinkedIn, Handshake and company career pages.
-
-### Resume project entry: Internship Final Sprint
-
-**Internship Final Sprint – Embedded Systems Intensive**  
-*Aug 2025 – 2 weeks, Odessa, TX*  
-A self‑directed, full‑time project that condensed two months of embedded systems development into 14 days.  I executed daily coding challenges, built and debugged firmware across multiple peripherals, and adopted professional toolchains to prepare for embedded software internships.
-
-**Key accomplishments:**
-
-- Developed **14 mini‑projects** on an STM32 board covering memory management, bitwise operations, interrupt service routines, timers, SPI/I²C/UART communication, ADC/PWM control, UART logging with ring buffers, and simple RTOS tasks.
-- Implemented a **dynamic array, ring buffer, and register abstraction** in C to practise pointer arithmetic and dynamic memory allocation; verified correct operation with unit tests and `valgrind`.
-- Built and flashed multiple CubeIDE firmware projects using both **HAL** and **direct register** methods; toggled LEDs, handled button EXTI interrupts, and wrote timer‑based ISRs to drive periodic tasks.
-- Configured **SPI loopback tests** and verified full‑duplex transfers by manually controlling chip‑select lines; documented how MOSI/MISO bits shift synchronouslyhttps://en.wikipedia.org/wiki/Serial_Peripheral_Interface#:~:text=orchestrates%20communication%20%20with%20one,slave%20roles%20on%20the%20fly.
-- Redirected `printf` to UART and integrated a **ring buffer** for non‑blocking receive; wrote Bash scripts to parse logs and summarise performance.
-- Integrated ADC sampling with PWM output to control LED brightness; compared polling vs interrupt modes and documented CPU usage differences.
-- Created a **unified firmware state machine** combining ADC, SPI and UART tasks; used a button to cycle modes and built a test harness to verify correct transitions.
-- Wrote **custom Makefiles** and scripts to automate building and flashing; practised advanced Git workflows (branching, rebasing, merging) and used the **Linux CLI** for build automation and log parsing.
-- Explored **FreeRTOS** by partitioning tasks into separate threads with queues and semaphores; measured stack usage and discussed pros/cons of RTOS vs superloop.
-- Prepared for interviews by solving **embedded C problems** (bit manipulations, memory‑mapped I/O, state machines) and summarised learnings in comprehensive notes.
-
-Technologies: C, STM32, STM32CubeIDE, STM32 HAL and LL drivers, FreeRTOS, Git, Linux CLI, Makefiles, `arm-none-eabi-gcc`, GDB, Bash, Python, UART, SPI, I²C, ADC, PWM, interrupts, timers, state machines.
-
-### Should this replace an existing resume entry?
-
-Your current resume includes **Contract Software Engineer**, **Freelance Software Engineer**, and projects like **Tinycardia**, **Medusa Anti‑Cheat** and **AimAware**file:///home/oai/share/Resume%20-%20Kyle%20Dudley.pdf.  The Contract Software Engineer role demonstrates professional software experience and should stay.  The Freelance Software Engineer entry spans multiple years and lists Java projects; consider shortening it to 1–2 bullets or moving details into the projects section.  You can then feature **Internship Final Sprint** under the **Projects** section (or create a separate “Embedded Systems” section).  This highlights your intensive embedded work without overcrowding the résumé.  Keep Tinycardia because it aligns strongly with embedded/EE roles.  Condense or remove lesser‑relevant SWE experiences (e.g., generic Minecraft modding) to make room.
