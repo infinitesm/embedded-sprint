@@ -1,7 +1,6 @@
-# The Final Sprint for an Internship
+# EmbeddedSprint: A 14-day Embedded SWE fundamentals bootcamp
 
-**A 14-day intensive embedded systems bootcamp**  
-**August 11 – 24, 2025 (America/Chicago)**
+**A 14-day intensive embedded systems bootcamp**
 
 ---
 
@@ -60,7 +59,7 @@ This program will produce:
 
 ---
 
-## How to Get Started
+## How to get started
 
 1. **Clone the Repo**  
    ```bash
