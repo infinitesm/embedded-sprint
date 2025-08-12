@@ -1,1 +1,7 @@
 gh_token.txt.gpg
+./idea.idea/
+build/
+cmake-build-*/
+*.iml
+CMakeFiles/
+CMakeCache.txt
