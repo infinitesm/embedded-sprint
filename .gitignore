@@ -1,5 +1,5 @@
 gh_token.txt.gpg
-./idea.idea/
+.idea/
 build/
 cmake-build-*/
 *.iml

@@ -1,75 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "dynarray.h"
+#include "../minitest/minitest.h"
 
-typedef struct { int total, failed; } TState;
-static void nobuf(void){ setvbuf(stdout,NULL,_IONBF,0); }
-#define TEST(ts, name, expr) do{ (ts)->total++; \
-  if (expr) printf("[ OK ] %s\n", name); else { (ts)->failed++; printf("[FAIL] %s\n", name); } \
-}while(0)
-
-int main(void) {
-    nobuf();
-    TState ts = {0,0};
+TEST_CASE(test_init) {
     DynArray a;
-
-    /* ---------- init ---------- */
     dyn_init(&a);
-    TEST(&ts, "init: size=0", a.size == 0);
-    TEST(&ts, "init: cap=4",  a.capacity == 4);
-    TEST(&ts, "init: data!=NULL", a.data != NULL);
 
-    /* ---------- pop from empty ---------- */
-    int r = dyn_pop(&a);
-    TEST(&ts, "pop empty -> sentinel (-1)", r == -1);
-    TEST(&ts, "pop empty leaves size=0", a.size == 0);
-    TEST(&ts, "pop empty leaves cap unchanged (4)", a.capacity == 4);
-
-    /* ---------- grow then shrink ---------- */
-    // Push 5 elements to force growth: 4 -> (push #5) -> capacity 8
-    for (int i = 0; i < 5; ++i) dyn_push(&a, i+10);
-    TEST(&ts, "after 5 pushes: size=5", a.size == 5);
-    TEST(&ts, "after 5 pushes: capacity doubled to 8", a.capacity >= 8); // your code doubles to exactly 8
-
-    // Pop down to size==1; with cap=8, shrink triggers when size < cap/4 -> 1 < 2 -> halves to 4
-    int popped;
-    popped = dyn_pop(&a); (void)popped;
-    popped = dyn_pop(&a); (void)popped;
-    popped = dyn_pop(&a); (void)popped;
-    popped = dyn_pop(&a); (void)popped;   // now size should be 1
-    TEST(&ts, "after popping to size=1", a.size == 1);
-    TEST(&ts, "shrink: capacity halved to 4 when size<cap/4", a.capacity == 4);
-
-    // Pop last element to size==0; with cap=4, condition is size < cap/4 -> 0 < 1 -> halves to 2 (your current code allows this)
-    popped = dyn_pop(&a); (void)popped;   // size==0 now
-    TEST(&ts, "after final pop: size=0", a.size == 0);
-    TEST(&ts, "shrink again at 0 < 4/4 -> capacity becomes 2", a.capacity == 2);
-
-    /* ---------- LIFO behavior & sentinel doesn’t crash ---------- */
-    // Refill and pop to confirm values and that -1 can be a valid stored value
-    for (int i = 0; i < 3; ++i) dyn_push(&a, i);   // push 0,1,2
-    dyn_push(&a, -1);                              // push sentinel value as data
-    TEST(&ts, "push count -> size=4", a.size == 4);
-    TEST(&ts, "pop returns -1 (real value, not empty)", dyn_pop(&a) == -1);
-    TEST(&ts, "then 2", dyn_pop(&a) == 2);
-    TEST(&ts, "then 1", dyn_pop(&a) == 1);
-    TEST(&ts, "then 0", dyn_pop(&a) == 0);
-    TEST(&ts, "now empty pop -> sentinel", dyn_pop(&a) == -1);
-
-    /* ---------- invariants ---------- */
-    TEST(&ts, "capacity never below size", a.capacity >= a.size);
+    TEST(ts, "init: size=0", a.size == 0);
+    TEST(ts, "init: cap=4",  a.capacity == 4);
+    TEST(ts, "init: data!=NULL", a.data != NULL);
 
     dyn_free(&a);
-
-    /* ---------- summary / exit code ---------- */
-    if (ts.failed) {
-        printf("\nSUMMARY: %d/%d FAILED\n", ts.failed, ts.total);
-        return 1;
-    }
-    printf("\nSUMMARY: all %d passed\n", ts.total);
-    return 0;
 }
 
+TEST_CASE(test_pop_empty) {
+    DynArray a;
+    dyn_init(&a);
+
+    int r = dyn_pop(&a);
+    TEST(ts, "pop empty -> sentinel (-1)", r == -1);
+    TEST(ts, "pop empty leaves size=0", a.size == 0);
+    TEST(ts, "pop empty leaves cap unchanged (4)", a.capacity == 4);
+
+    dyn_free(&a);
+}
+
+TEST_CASE(test_grow_then_shrink) {
+    DynArray a;
+    dyn_init(&a);
+
+    // push 5 elements to force growth from 4 to at least 8
+    for (int i = 0; i < 5; ++i) dyn_push(&a, i + 10);
+    TEST(ts, "after 5 pushes: size=5", a.size == 5);
+    TEST(ts, "after 5 pushes: capacity doubled to >=8", a.capacity >= 8);
+
+    // pop down to size==1; shrink triggers when size < cap/4 (1 < 2) -> halves to 4
+    (void)dyn_pop(&a);
+    (void)dyn_pop(&a);
+    (void)dyn_pop(&a);
+    (void)dyn_pop(&a);
+    TEST(ts, "after popping to size=1", a.size == 1);
+    TEST(ts, "shrink: capacity halved to 4 when size<cap/4", a.capacity == 4);
+
+    // pop last to size==0; with cap=4, 0 < 1 -> halves to 2
+    (void)dyn_pop(&a);
+    TEST(ts, "after final pop: size=0", a.size == 0);
+    TEST(ts, "shrink again at 0 < 4/4 -> capacity becomes 2", a.capacity == 2);
+
+    dyn_free(&a);
+}
+
+TEST_CASE(test_lifo_and_sentinel) {
+    DynArray a;
+    dyn_init(&a);
+
+    for (int i = 0; i < 3; ++i) dyn_push(&a, i); // 0,1,2
+    dyn_push(&a, -1); // store sentinel-like value as real data
+    TEST(ts, "push count -> size=4", a.size == 4);
+
+    TEST(ts, "pop returns -1 (real value, not empty)", dyn_pop(&a) == -1);
+    TEST(ts, "then 2", dyn_pop(&a) == 2);
+    TEST(ts, "then 1", dyn_pop(&a) == 1);
+    TEST(ts, "then 0", dyn_pop(&a) == 0);
+    TEST(ts, "now empty pop -> sentinel", dyn_pop(&a) == -1);
+
+    dyn_free(&a);
+}
+
+TEST_CASE(test_invariants) {
+    DynArray a;
+    dyn_init(&a);
+
+    for (int i = 0; i < 16; ++i) dyn_push(&a, i);
+    for (int i = 0; i < 15; ++i) (void)dyn_pop(&a);
+
+    TEST(ts, "capacity never below size", a.capacity >= a.size);
+
+    dyn_free(&a);
+}
+
+int main(void) {
+    const Test tests[] = {
+        {"test_init",              test_init},
+        {"test_pop_empty",         test_pop_empty},
+        {"test_grow_then_shrink",  test_grow_then_shrink},
+        {"test_lifo_and_sentinel", test_lifo_and_sentinel},
+        {"test_invariants",        test_invariants},
+    };
+    return run_all_tests(tests, sizeof(tests) / sizeof(tests[0]));
+}
 
 void dyn_init(DynArray *a) {
     // allocate dynamic array with capacity of 4
