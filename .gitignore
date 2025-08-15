@@ -1,7 +1,53 @@
 gh_token.txt.gpg
-.idea/
-build/
-cmake-build-*/
-*.iml
 CMakeFiles/
 CMakeCache.txt
+
+# -------- Build outputs (CMake / CubeIDE / Make) --------
+**/cmake-build-*/
+**/build/
+**/Debug*/
+**/Release*/
+**/*.o
+**/*.obj
+**/*.a
+**/*.d
+**/*.map
+**/*.lst
+**/*.list
+**/*.hex
+**/*.bin
+**/*.elf
+**/*.exe
+**/*.out
+**/*.log
+
+# -------- STM32CubeIDE / Eclipse metadata --------
+**/.metadata/
+**/.settings/
+**/.cproject
+**/.project
+**/.mxproject
+**/*.launch
+**/*.cfg
+
+# -------- JetBrains / CLion (optional; ignore if you don't commit IDE files) --------
+/.idea/
+**/*.iml
+
+# -------- OS/editor cruft --------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# -------- Keep these tracked (for clarity) --------
+# (These lines are only needed if you add broad ignores elsewhere;
+# they don't hurt.)
+!**/*.ioc
+!**/*.ld
+!**/Core/**
+!**/Drivers/**
+!**/Middlewares/**
+!**/Startup/**
+!app/**
+
