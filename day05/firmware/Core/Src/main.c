@@ -71,12 +71,26 @@ void SystemClock_Config(void);
 
 // debug over UART
 static void debug(const char *fmt, ...) {
-    char buf[160];
-    va_list ap; va_start(ap, fmt);
+    char buf[160]; // temp buffer on the stack to hold formatted message before sendeing
+    va_list ap; // va_list is a special type to traverse variable args
+    va_start(ap, fmt); // initializes ap so it points to the first var arg after fmt;
+
+    // works like snprintf, taking va_list instead of direct args
+    // it writes a formatted string into buf using fmt and ap
+    // and also ensures no more than sizeof(buf) chars are written (160 here)
     int n = vsnprintf(buf, sizeof(buf), fmt, ap);
+
+    // mandatory after calling va_start
     va_end(ap);
-    if (n < 0) return;
-    if (n > (int)sizeof(buf)) n = sizeof(buf);
+
+    if (n < 0) return; // indicates some sort of formatting error or failure with vsnprintf
+    if (n > (int)sizeof(buf)) n = sizeof(buf); // truncates the string as to not overflow the buffer
+
+    // uses HALs blocking transmit function to transmit over UART
+    // &huart2 is the UART handle (goes out onto USART2)
+    // (uint8_t*)buf os casing the message string into bytes
+    // (uint16_t)n represents how many characters to send.
+    // HAL_MAX_DELAY means "wait forever until the transmission finishes"
     HAL_UART_Transmit(&huart2, (uint8_t*)buf, (uint16_t)n, HAL_MAX_DELAY);
 }
 
